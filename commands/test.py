@@ -12,10 +12,19 @@ from random import randint
 def testdata():
     f = faker.Faker()
     al, dl, ol, rcl, rl, dsl, tl = [], [], [], [], [], [], []
+
+    for _ in range(60):
+        o = Organisation(name=f.company())
+        ol.append(o)
+        db.session.add(o)
+
+    db.session.commit()
+
     for _ in range(300):
         a = Address(city=f.city(), country=f.country_code(), postcode=f.postcode(), line1=f.street_name(), line2=f.building_number())
         d = Doctor(name=f.name(), email=f.email(), website=f.url(), phone=f.phone_number(), prefix=f.prefix(),
                    suffix=f.suffix(),
+                   organisation_id=ol[randint(0, ol.__len__() - 1)].id,
                    note=f.text(max_nb_chars=randint(50, 200)),
                    is_blocked=True if randint(1, 2) == 1 else False,
                    is_trans_friendly=True if randint(10, 50) < 40 else False,
@@ -27,13 +36,6 @@ def testdata():
         db.session.add(a)
         db.session.add(d)
         db.session.add(t)
-
-    db.session.commit()
-
-    for _ in range(60):
-        o = Organisation(name=f.company())
-        ol.append(o)
-        db.session.add(o)
 
     db.session.commit()
 

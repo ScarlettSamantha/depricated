@@ -1,0 +1,15 @@
+<table>
+    <thead>
+        <td>Prefix</td>
+        <td>Name</td>
+        <td>Suffix</td>
+        <td>Phone</td>
+        <td>Organisation</td>
+        <td>Country</td>
+    </thead>
+    <tbody>
+        {% for doctor in doctors %}
+            {% include 'partiales/doctor/list_item.html' %}
+        {% endfor %}
+    </tbody>
+</table>

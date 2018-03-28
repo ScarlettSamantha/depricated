@@ -1,0 +1,8 @@
+<tr>
+    <td>{{ doctor.prefix }}</td>
+    <td><a href="{{ url_for('get_doctor', uuid_id=doctor.id) }}">{{ doctor.name }}</a></td>
+    <td>{{ doctor.suffix }}</td>
+    <td>{{ doctor.phone }}</td>
+    <td>{{ doctor.organisation().name }}</td>
+    <td>{{ doctor.country() }}</td>
+</tr>

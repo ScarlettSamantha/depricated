@@ -16,9 +16,23 @@ db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind
 from models import *
 from commands import *
 
+
 @app.route('/')
 def index():
     return render_template('home.html')
+
+
+@app.route('/doctors/')
+def index_doctors():
+    dlist = Doctor.query.all()
+    return render_template('doctors.html', doctors=dlist)
+
+
+@app.route('/doctor/<uuid_id>')
+def get_doctor(uuid_id):
+    dobj = Doctor.query.filter(Doctor.id == uuid_id).first()
+    return render_template('doctor.html', doctor=dobj)
+
 
 if __name__ == '__main__':
     app.run()
