@@ -5,7 +5,7 @@ from datetime import datetime
 from helpers import IsTagAble, IsRateAble, IsSearchAble
 
 
-class Doctor(db.Model, IsTagAble, IsRateAble, IsSearchAble):
+class Doctor(IsTagAble, IsRateAble, IsSearchAble, db.Model):
     id = db.Column(UuidField, unique=True, nullable=False, default=uuid4, primary_key=True)
 
     name = db.Column(db.String(255), unique=False, nullable=False)
@@ -27,6 +27,7 @@ class Doctor(db.Model, IsTagAble, IsRateAble, IsSearchAble):
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_updated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-
+    def __init__(self, *args, **kwargs):
+        super(self.__class__, self).__init__(*args, **kwargs)
 
 
