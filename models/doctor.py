@@ -8,6 +8,8 @@ from helpers import IsTagAble, IsRateAble, IsSearchAble
 class Doctor(IsTagAble, IsRateAble, IsSearchAble, db.Model):
     id = db.Column(UuidField, unique=True, nullable=False, default=uuid4, primary_key=True)
 
+    prefix = db.Column(db.String(255), unique=False, nullable=False)
+    suffix = db.Column(db.String(255), unique=False, nullable=False)
     name = db.Column(db.String(255), unique=False, nullable=False)
 
     email = db.Column(db.String(255), unique=False, nullable=True)
