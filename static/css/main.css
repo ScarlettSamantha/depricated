@@ -1,0 +1,53 @@
+.form-control,
+.input-group-btn,
+.input-group-btn > button
+{
+    border-radius: 0px;
+}
+
+.btn-default
+{
+    outline: 0 !important;
+    outline-offset: 0  !important;
+    background-image: none  !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none  !important;
+}
+
+.transsearch-title
+{
+    text-align: center;
+}
+
+.trans-search-container
+{
+
+    font-size:32px;
+}
+
+.trans-search-container button,
+.search-bar
+{
+    height:50px;
+}
+
+.trans-search-container button > span
+{
+    padding-left:10px;
+    padding-right:10px;
+}
+
+.trans-guides-container
+{
+    margin-top:100px;
+}
+
+.trans-guides-container h2
+{
+    font-size:26px;
+}
+
+.trans-guides-container li
+{
+    list-style: none;
+}
