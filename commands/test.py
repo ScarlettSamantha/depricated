@@ -14,7 +14,11 @@ def testdata():
     al, dl, ol, rcl, rl, dsl, tl = [], [], [], [], [], [], []
     for _ in range(100):
         a = Address(city=f.city(), country=f.country_code(), postcode=f.postcode(), line1=f.street_name(), line2=f.building_number())
-        d = Doctor(name=f.name(), email=f.email(), website=f.url())
+        d = Doctor(name=f.name(), email=f.email(), website=f.url(), phone=f.phone(),
+                   note=f.paragraphs(nb=randint(1, 3)),
+                   is_blocked=True if randint(1,2) == 1 else False,
+                   is_trans_friendly=True if randint(10, 50) < 40 else False,
+                   has_warning=True if randint(1, 20) == 1 else False)
         t = Tag(name=f.sentence(nb_words=randint(1, 2), variable_nb_words=True))
         al.append(a)
         dl.append(d)

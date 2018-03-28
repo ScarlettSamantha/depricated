@@ -16,9 +16,6 @@ class Doctor(IsTagAble, IsRateAble, IsSearchAble, db.Model):
     picture = db.Column(db.String(255), unique=False, nullable=True, default=None)
     website = db.Column(db.String(255), unique=False, nullable=True)
 
-    # This can also be mapped via the organisation. @todo make a abstract function to handle this.
-    _address = db.Column(UuidField, db.ForeignKey('address.id'), nullable=True, unique=False)
-
     is_approved = db.Column(db.Boolean, default=True, nullable=False, unique=False)
     is_blocked = db.Column(db.Boolean, default=False, nullable=False, unique=False)
     is_trans_friendly = db.Column(db.Boolean, default=True, nullable=False, unique=False)
