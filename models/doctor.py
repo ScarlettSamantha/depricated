@@ -43,5 +43,7 @@ class Doctor(IsTagAble, IsRateAble, IsSearchAble, db.Model):
     def country(self):
         return self.organisation().country_formatted()
 
+    def country_code(self):
+        return self.organisation().address().country
 
 

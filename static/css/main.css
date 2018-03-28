@@ -51,3 +51,13 @@
 {
     list-style: none;
 }
+
+.flag-icon.flag-icon-squared
+{
+    margin-right:10px;
+    width:17px !important;
+    max-width:17px !important;
+    max-height:17px;
+    border:1px solid black;
+    padding:0px 0px 0px 0px;
+}
