@@ -14,7 +14,7 @@ def testdata():
     al, dl, ol, rcl, rl, dsl, tl = [], [], [], [], [], [], []
 
     for _ in range(60):
-        o = Organisation(name=f.company(), phone=f.phone_number(), website=f.url, email=f.email())
+        o = Organisation(name=f.company(), phone=f.phone_number(), website=f.url(), email=f.email())
         ol.append(o)
         db.session.add(o)
 
