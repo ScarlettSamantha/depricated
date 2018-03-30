@@ -12,6 +12,10 @@ class Organisation(IsTagAble, IsRateAble, IsSearchAble, db.Model):
     id = db.Column(UuidField, unique=True, nullable=False, default=uuid4, primary_key=True)
     name = db.Column(db.String(255), unique=False, nullable=False)
 
+    email = db.Column(db.String(255), unique=False, nullable=True)
+    phone = db.Column(db.String(255), unique=False, nullable=True)
+    website = db.Column(db.String(255), unique=False, nullable=True)
+
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_updated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
