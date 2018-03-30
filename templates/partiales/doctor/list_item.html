@@ -1,9 +1,7 @@
 <tr>
-    <td>{{ doctor.prefix }}</td>
-    <td><a href="{{ url_for('get_doctor', uuid_id=doctor.id) }}">{{ doctor.name }}</a></td>
-    <td>{{ doctor.suffix }}</td>
-    <td>{{ doctor.phone }}</td>
-    <td><a href="{{ url_for('get_organisation', uuid_id=doctor.organisation().id) }}">{{ doctor.organisation().name }}</a></td>
+    <td><a href="{{ url_for('doctor', uuid_id=doctor.id) }}">{{ doctor.prefix }} {{ doctor.name }} {{ doctor.suffix }}</a></td>
+    <td><a href="tel:{{ doctor.phone }}">{{ doctor.phone }}</a></td>
+    <td><a href="{{ url_for('organisation', uuid_id=doctor.organisation().id) }}">{{ doctor.organisation().name }}</a></td>
     <td><span class="flag-icon flag-icon-{{ doctor.country_code()|lower }} flag-icon-squared flag-icon-squared"></span>{{ doctor.country() }}</td>
-    <td><a href="{{ url_for('get_doctor', uuid_id=doctor.id) }}"><i class="fa fa-eye"></i></a></td>
+    <td><a href="{{ url_for('doctor', uuid_id=doctor.id) }}"><i class="fa fa-eye"></i></a></td>
 </tr>

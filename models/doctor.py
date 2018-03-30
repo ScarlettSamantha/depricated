@@ -48,7 +48,7 @@ class Doctor(IsRateAble, IsSearchAble, db.Model):
     def country_code(self):
         return self.organisation().address().country
 
-    def specialisms(self):
+    def specialisms(self, sort=True):
         specialisms = Specialisation.query.join(DoctorSpecialisation)\
             .filter(Specialisation.id == DoctorSpecialisation.specialisation_id)\
             .filter(DoctorSpecialisation.doctor_id == self.id)\
@@ -56,6 +56,8 @@ class Doctor(IsRateAble, IsSearchAble, db.Model):
         names = []
         for s in specialisms:
             names.append(s.name)
+        if sort:
+            names = sorted(names)
         return names
 
 

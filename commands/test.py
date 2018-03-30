@@ -21,7 +21,9 @@ def testdata():
     db.session.commit()
 
     for _ in range(300):
-        a = Address(city=f.city(), country=f.country_code(), postcode=f.postcode(), line1=f.street_name(), line2=f.building_number())
+        a = Address(city=f.city(), country=f.country_code(), postcode=f.postcode(), line1=f.street_name(),
+                    line2=f.building_number(),
+                    province=f.state())
         d = Doctor(name=f.name(), email=f.email(), website=f.url(), phone=f.phone_number(), prefix=f.prefix(),
                    suffix=f.suffix(),
                    organisation_id=ol[randint(0, ol.__len__() - 1)].id,

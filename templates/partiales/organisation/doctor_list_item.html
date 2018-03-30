@@ -1,0 +1,5 @@
+<tr>
+    <td><a href="{{ url_for('doctor', uuid_id=employee.id) }}">{{ employee.prefix }} {{ employee.name }} {{ employee.suffix }}</a></td>
+    <td>{{ employee.specialisms()|join(', ') }}</td>
+    <td><a href="{{ url_for('doctor', uuid_id=employee.id) }}"><i class="fa fa-eye"></i></a></td>
+</tr>

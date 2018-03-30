@@ -38,3 +38,9 @@ class Organisation(IsTagAble, IsRateAble, IsSearchAble, db.Model):
             return c.offical_name
         except AttributeError:
             return c.name
+
+    def country(self):
+        return self.country_formatted()
+
+    def country_code(self):
+        return self.address().country

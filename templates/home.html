@@ -1,9 +1,13 @@
 {% extends "layouts/base.html" %}
 
 {% block head %}
-{% include 'partiales/head.html' %}
+    {% include 'partiales/head.html' %}
+{% endblock %}
+
+{% block navigation %}
+    {% include 'partiales/navigation.html' %}
 {% endblock %}
 
 {% block content %}
-{% include 'content/home.html' %}
+    {% include 'content/home.html' %}
 {% endblock %}

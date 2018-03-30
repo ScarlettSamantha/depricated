@@ -1,0 +1,7 @@
+<tr>
+    <td><a href="{{ url_for('organisation', uuid_id=organisation.id) }}">{{ organisation.name }}</a></td>
+    <td><a href="tel:{{ organisation.phone }}">{{ organisation.phone }}</a></td>
+    <td><a target="_blank" href="{{ organisation.website }}">{{ organisation.website }}</a></td>
+    <td><span class="flag-icon flag-icon-{{ organisation.country_code()|lower }} flag-icon-squared flag-icon-squared"></span>{{ organisation.country() }}</td>
+    <td><a href="{{ url_for('organisation', uuid_id=organisation.id) }}"><i class="fa fa-eye"></i></a></td>
+</tr>

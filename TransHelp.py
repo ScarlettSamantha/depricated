@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, render_template_string
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from flask_sqlalchemy import SQLAlchemy
@@ -23,13 +23,13 @@ def index():
 
 
 @app.route('/doctors/')
-def index_doctors():
+def doctors():
     dlist = Doctor.query.all()
     return render_template('doctors.html', doctors=dlist)
 
 
 @app.route('/doctor/<uuid_id>')
-def get_doctor(uuid_id):
+def doctor(uuid_id):
     doctor_object = Doctor.query.filter(Doctor.id == uuid_id).first()
     ratings = doctor_object.get_ratings()
     rl = {}
@@ -44,13 +44,39 @@ def get_doctor(uuid_id):
 
 
 @app.route('/organisations/')
-def index_organisations():
-    return render_template('organisations.html')
+def organisations():
+    organisations = Organisation.query.all()
+    return render_template('organisations.html', organisations=organisations)
 
 
 @app.route('/organisation/<uuid_id>')
-def get_organisation(uuid_id):
-    return render_template('organisation.html')
+def organisation(uuid_id):
+    org = Organisation.query.filter(Organisation.id == uuid_id).first()
+    employees = Doctor.query.filter(Doctor.organisation_id == uuid_id).all()
+    return render_template('organisation.html', organisation=org, employees=employees)
+
+def todo():
+    return render_template_string('Todo')
+
+@app.route('/resources/')
+def resources():
+    return todo()
+
+@app.route('/resource/<uuid>')
+def resource(uuid):
+    return todo()
+
+@app.route('/guides/')
+def guides():
+    return todo()
+
+@app.route('/guide/<uuid>')
+def guide(uuid):
+    return todo()
+
+@app.route('/contact/')
+def contact():
+    return todo()
 
 if __name__ == '__main__':
     app.run()
