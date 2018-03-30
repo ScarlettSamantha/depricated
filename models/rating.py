@@ -24,3 +24,6 @@ class Rating(db.Model):
 
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_updated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def percent(self) -> int:
+        return int(self.rating)

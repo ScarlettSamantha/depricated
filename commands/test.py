@@ -1,7 +1,7 @@
 import faker
 
 from TransHelp import app, db
-from models import Doctor, Address, DoctorAddress, Organisation, OrganisationAddress, RatingCategory, Rating, \
+from models import Doctor, Address, Organisation, OrganisationAddress, RatingCategory, Rating, \
     Specialisation, DoctorSpecialisation, Tag, ObjectTag
 from models.rating import RateAbleObjects
 from models.objectTag import TaggableObjects
@@ -29,6 +29,8 @@ def testdata():
                    is_blocked=True if randint(1, 2) == 1 else False,
                    is_trans_friendly=True if randint(10, 50) < 40 else False,
                    has_warning=True if randint(1, 20) == 1 else False)
+        if d.has_warning:
+            d.warning_note = f.text(max_nb_chars=randint(50, 200))
         t = Tag(name=f.sentence(nb_words=randint(1, 2), variable_nb_words=True))
         al.append(a)
         dl.append(d)
@@ -39,17 +41,16 @@ def testdata():
 
     db.session.commit()
 
-    for d_obj in dl:
-        da = DoctorAddress(doctor_id=d_obj.id, address_id=al[randint(0, al.__len__() - 1)].id)
-        db.session.add(da)
-
     for o_obj in ol:
         oa = OrganisationAddress(organisation_id=o_obj.id, address_id=al[randint(0, al.__len__() - 1)].id)
         db.session.add(oa)
 
-    for _ in range(20):
+    for _ in range(10):
         rc = RatingCategory(name=f.sentence(nb_words=3, variable_nb_words=True))
-        ds = Specialisation(name=f.sentence(nb_words=2, variable_nb_words=True))
+        name = f.sentence(nb_words=2, variable_nb_words=True)
+        if name[-1] == '.':
+            name = name[:-1]
+        ds = Specialisation(name=name)
         rcl.append(rc)
         dsl.append(ds)
         db.session.add(rc)
@@ -76,7 +77,7 @@ def testdata():
         for _ in range(1, 5):
             ds = DoctorSpecialisation(doctor_id=do.id, specialisation_id=dsl[randint(0, dsl.__len__() - 1)].id)
             db.session.add(ds)
-        for _ in range(5, 45):
+        for _ in range(15, 45):
             r = Rating(object_type=RateAbleObjects.doctor, object_id=do.id, rating=randint(1, 100),
                        category=rcl[randint(0, rcl.__len__() - 1)].id)
             rl.append(r)

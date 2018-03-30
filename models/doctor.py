@@ -1,13 +1,13 @@
-import pycountry
 from uuid import uuid4
 from helpers.uuid import UuidField
 from TransHelp import db
 from datetime import datetime
-from helpers import IsTagAble, IsRateAble, IsSearchAble
+from helpers import IsRateAble, IsSearchAble
 from .organisation import Organisation
+from .specialisation import Specialisation
+from .doctorSpecialisation import DoctorSpecialisation
 
-
-class Doctor(IsTagAble, IsRateAble, IsSearchAble, db.Model):
+class Doctor(IsRateAble, IsSearchAble, db.Model):
     id = db.Column(UuidField, unique=True, nullable=False, default=uuid4, primary_key=True)
 
     prefix = db.Column(db.String(255), unique=False, nullable=False)
@@ -16,9 +16,11 @@ class Doctor(IsTagAble, IsRateAble, IsSearchAble, db.Model):
 
     email = db.Column(db.String(255), unique=False, nullable=True)
     phone = db.Column(db.String(255), unique=False, nullable=True)
-    note = db.Column(db.Text, unique=False, nullable=True)
     picture = db.Column(db.String(255), unique=False, nullable=True, default=None)
     website = db.Column(db.String(255), unique=False, nullable=True)
+
+    note = db.Column(db.Text, unique=False, nullable=True)
+    warning_note = db.Column(db.Text, unique=False, nullable=True)
 
     organisation_id = db.Column(UuidField, db.ForeignKey('organisation.id'))
 
@@ -45,5 +47,16 @@ class Doctor(IsTagAble, IsRateAble, IsSearchAble, db.Model):
 
     def country_code(self):
         return self.organisation().address().country
+
+    def specialisms(self):
+        specialisms = Specialisation.query.join(DoctorSpecialisation)\
+            .filter(Specialisation.id == DoctorSpecialisation.specialisation_id)\
+            .filter(DoctorSpecialisation.doctor_id == self.id)\
+            .all()
+        names = []
+        for s in specialisms:
+            names.append(s.name)
+        return names
+
 
 

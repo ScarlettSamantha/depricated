@@ -30,9 +30,27 @@ def index_doctors():
 
 @app.route('/doctor/<uuid_id>')
 def get_doctor(uuid_id):
-    dobj = Doctor.query.filter(Doctor.id == uuid_id).first()
-    return render_template('doctor.html', doctor=dobj)
+    doctor_object = Doctor.query.filter(Doctor.id == uuid_id).first()
+    ratings = doctor_object.get_ratings()
+    rl = {}
+    for r in ratings:
+        if r.category not in rl.keys():
+            rl[r.category] = {'num': 0, 'total': 0, 'avg': 0, 'category_name': r.name}
+        rl[r.category]['num'] += 1
+        rl[r.category]['total'] += r.rating
+    for key, value in rl.items():
+        value['avg'] = round(value['total'] / value['num'], 1)
+    return render_template('doctor.html', doctor=doctor_object, ratings=rl)
 
+
+@app.route('/organisations/')
+def index_organisations():
+    return render_template('organisations.html')
+
+
+@app.route('/organisation/<uuid_id>')
+def get_organisation(uuid_id):
+    return render_template('organisation.html')
 
 if __name__ == '__main__':
     app.run()

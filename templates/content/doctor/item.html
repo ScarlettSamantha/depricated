@@ -1,0 +1,68 @@
+<div class="doctor container">
+    {% if doctor.has_warning %}
+    <div class="row transsearch-notifications">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">Warning</h3>
+            </div>
+            <div class="panel-body">
+                {{ doctor.warning_note }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="row doctor_information">
+            <h2>Information</h2>
+            <table class="table table-bordered">
+                <tr>
+                    <td>Name</td>
+                    <td>{{ doctor.prefix }} {{ doctor.name }} {{ doctor.suffix }}</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><a href="mailto:{{ doctor.email }}">{{ doctor.email }}</a></td>
+                </tr>
+                <tr>
+                    <td>Phone</td>
+                    <td><a href="tel:{{ doctor.phone }}">{{ doctor.phone }}</a></td>
+                </tr>
+                <tr>
+                    <td>Website</td>
+                    <td><a href="{{ doctor.website }}">{{ doctor.website }}</a></td>
+                </tr>
+                <tr>
+                    <td>Specialisms</td>
+                    <td>{{ doctor.specialisms()|join(', ') }}</td>
+                </tr>
+                <tr>
+                    <td>Transfiendly(?)</td>
+                    <td><i class="fa {% if doctor.is_trans_friendly %} fa-check {% else %} fa-stop-circle {% endif %}"></i></td>
+                </tr>
+                <tr>
+                    <td>Blocked(?)</td>
+                    <td><i class="fa {% if doctor.is_blocked %} fa-check {% else %} fa-stop-circle {% endif %}"></i></td>
+                </tr>
+                <tr>
+                    <td>Has Approved(?)</td>
+                    <td><i class="fa {% if doctor.is_approved %} fa-check {% else %} fa-stop-circle {% endif %}"></i></td>
+                </tr>
+                <tr>
+                    <td>Note</td>
+                    <td><p>{{ doctor.note }}</p></td>
+                </tr>
+            </table>
+    </div>
+    <div class="row rating_container">
+        <h2>Ratings</h2>
+        <table class="ratings table table-bordered">
+            <thead>
+                <td>Category</td>
+                <td>Avg</td>
+                <td># votes</td>
+            </thead>
+        {% for category, rating in ratings.items() %}
+            {% include 'partiales/rating/list_item.html' %}
+        {% endfor %}
+        </table>
+    </div>
+</div>
