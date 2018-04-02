@@ -1,0 +1,6 @@
+<tr>
+    <td><a href="{{ url_for('guide', uuid=guide.id) }}">{{ guide.title }}</a></td>
+    <td>{{ guide.author().name }}</td>
+    <td><i class="fa {% if guide.is_recompilation_needed() %} fa-stop-circle {% else %} fa-check-circle {% endif %}"></i></td>
+    <td><a href="{{ url_for('guide', uuid=guide.id) }}"><i class="fa fa-eye"></i></a></td>
+</tr>

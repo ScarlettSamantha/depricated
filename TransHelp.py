@@ -9,7 +9,7 @@ app = Flask(__name__)
 import config
 
 db = SQLAlchemy(app)
-engine = create_engine(config.db_path, convert_unicode=True)
+engine = create_engine(app.config['DATABASE_PATH'], convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
 # Load order is important here, otherwise commands dont have access to all the models.
@@ -55,24 +55,33 @@ def organisation(uuid_id):
     employees = Doctor.query.filter(Doctor.organisation_id == uuid_id).all()
     return render_template('organisation.html', organisation=org, employees=employees)
 
+
 def todo():
     return render_template_string('Todo')
+
 
 @app.route('/resources/')
 def resources():
     return todo()
 
+
 @app.route('/resource/<uuid>')
 def resource(uuid):
     return todo()
 
+
 @app.route('/guides/')
 def guides():
-    return todo()
+    guides = Guide.query.all()
+    return render_template('guides.html', guides=guides)
+
 
 @app.route('/guide/<uuid>')
 def guide(uuid):
-    return todo()
+    print(uuid)
+    guide = Guide.query.filter(Guide.id == str(uuid)).first()
+    return render_template('guide.html', guide=guide)
+
 
 @app.route('/contact/')
 def contact():

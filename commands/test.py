@@ -1,8 +1,8 @@
 import faker
-
+import urllib3
 from TransHelp import app, db
 from models import Doctor, Address, Organisation, OrganisationAddress, RatingCategory, Rating, \
-    Specialisation, DoctorSpecialisation, Tag, ObjectTag
+    Specialisation, DoctorSpecialisation, Tag, ObjectTag, User, Guide
 from models.rating import RateAbleObjects
 from models.objectTag import TaggableObjects
 from random import randint
@@ -11,7 +11,25 @@ from random import randint
 @app.cli.command()
 def testdata():
     f = faker.Faker()
-    al, dl, ol, rcl, rl, dsl, tl = [], [], [], [], [], [], []
+    al, dl, ol, rcl, rl, dsl, tl, unamel, ul = [], [], [], [], [], [], [], [], []
+
+    for _ in range(500):
+        uname = f.user_name()
+        if uname in unamel:
+            continue
+        u = User(username=uname, password=f.ipv6(), prefix=f.prefix(), name=f.name(), suffix=f.suffix(),
+                 email=f.email())
+        ul.append(u)
+        unamel.append(uname)
+        db.session.add(u)
+
+    db.session.commit()
+
+    url = 'https://gist.githubusercontent.com/rt2zz/e0a1d6ab2682d2c47746950b84c0b6ee/raw/83b8b4814c3417111b9b9bef86a552608506603e/markdown-sample.md'
+    md_test_data = urllib3.PoolManager().request('GET', url).data.decode()
+    for _ in range(60):
+        g = Guide(title=f.text(max_nb_chars=10), content=md_test_data, _author_id=ul[randint(0, ul.__len__() - 1)].id)
+        db.session.add(g)
 
     for _ in range(60):
         o = Organisation(name=f.company(), phone=f.phone_number(), website=f.url(), email=f.email())

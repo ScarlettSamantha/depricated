@@ -1,0 +1,15 @@
+<div class="organisations_list container">
+<table class="table table-responsive table-bordered">
+    <thead>
+        <td>title</td>
+        <td>author</td>
+        <td>Uptodate</td>
+        <td>View</td>
+    </thead>
+    <tbody>
+        {% for guide in guides %}
+            {% include 'partiales/guide/list_item.html' %}
+        {% endfor %}
+    </tbody>
+</table>
+</div>

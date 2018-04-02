@@ -6,12 +6,14 @@ from uuid import uuid4
 from helpers.uuid import UuidField
 from .doctor import Doctor
 from .organisation import Organisation
+from .guide import Guide
 
 
 class TaggableObjects(enum.Enum):
     unknown = 0
     doctor = Doctor
     organisation = Organisation
+    guide = Guide
 
 
 class ObjectTag(db.Model):
