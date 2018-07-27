@@ -15,7 +15,7 @@ def get_hash_length() -> int:
     t = 0
     if app.config['SECURITY_PASSWORD_METHOD'] == 'pbkdf2:sha256':
         t += 80
-    if app.config['SECURITY_PASSWORD_METHOD'] == 'pbkdf2:sha512':
+    elif app.config['SECURITY_PASSWORD_METHOD'] == 'pbkdf2:sha512':
         t += 144
     t += app.config['SECURITY_PASSWORD_METHOD'].__len__()
     t += str(app.config['SECURITY_PASSWORD_SALT_LENGTH']).__len__()

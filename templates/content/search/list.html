@@ -1,0 +1,71 @@
+<div class="organisations_list container">
+{% include 'partiales/filter_bar.html' %}
+{% if 'doctor' in filters or 'all' in filters %}
+    <h1>Doctors</h1>
+    <table class="table table-responsive table-bordered">
+        <thead>
+            <td>Name</td>
+            <td>Phone</td>
+            <td>Website</td>
+            <td>Country</td>
+            <td>View</td>
+        </thead>
+        <tbody class='filterable'>
+            {% if results['doctors'] | length == 0 %}
+                <tr>
+                    <td>No results</td>
+                </tr>
+            {% else %}
+                {% for doctor in results['doctors'] %}
+                    {% include 'partiales/doctor/list_item.html' %}
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+{% endif %}
+{% if 'organisations' in filters or 'all' in filters %}
+    <h1>Organisations</h1>
+    <table class="table table-responsive table-bordered">
+        <thead>
+            <td>Name</td>
+            <td>Phone</td>
+            <td>Website</td>
+            <td>Country</td>
+            <td>View</td>
+        </thead>
+        <tbody class='filterable'>
+            {% if results['organisations'] | length == 0 %}
+                <tr>
+                    <td>No results</td>
+                </tr>
+            {% else %}
+                {% for organisation in results['organisations'] %}
+                    {% include 'partiales/organisation/list_item.html' %}
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+{% endif %}
+{% if 'guides' in filters or 'all' in filters %}
+    <h1>Guides</h1>
+    <table class="table table-responsive table-bordered">
+        <thead>
+            <td>title</td>
+            <td>author</td>
+            <td>Uptodate</td>
+            <td>View</td>
+        </thead>
+        <tbody class='filterable'>
+            {% if results['guides'] | length == 0 %}
+                <tr>
+                    <td>No results</td>
+                </tr>
+            {% else %}
+                {% for guide in results['guides'] %}
+                    {% include 'partiales/guide/list_item.html' %}
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+{% endif %}
+</div>

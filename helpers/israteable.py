@@ -1,6 +1,5 @@
 from TransHelp import db
 
-
 class IsRateAble(object):
 
     _ID_FIELD_ = 'id'

@@ -6,10 +6,49 @@ from models import Doctor, Address, Organisation, OrganisationAddress, RatingCat
 from models.rating import RateAbleObjects
 from models.objectTag import TaggableObjects
 from random import randint
+from flask_whooshee import Whooshee
+from os.path import exists, dirname, getctime
+from os import makedirs
+from time import time
+from random import randrange
+from math import ceil
+
+@app.cli.command()
+def reindex() -> None:
+    whooshee = Whooshee(app)
+    whooshee.reindex()
+
+@app.cli.command()
+def testsearch() -> None:
+    query = Doctor.query.whooshee_search('Courtney')
+    print(query.count())
+    for x in query.all():
+        print(x.name)
+
+def get_md_cache(fetch_if_missing:bool=True, path:str='./tmp/md_cache.md') -> str:
+    if not exists(dirname(path)):
+        makedirs(dirname(path))
+    # Cache Timeout is 1 month
+    if not exists(path) or (getctime(path) + (3600 * 24 * 30)) < time():
+        print('Markdown data cache does not exists or is out of data, fetching new cache.')
+        url = 'https://gist.githubusercontent.com/rt2zz/e0a1d6ab2682d2c47746950b84c0b6ee/raw/83b8b4814c3417111b9b9bef86a552608506603e/markdown-sample.md'
+        md_test_data = urllib3.PoolManager().request('GET', url).data.decode()
+        fp = open(path, 'w+')
+        fp.truncate(0)
+        fp.seek(0)
+        fp.write(md_test_data)
+        fp.flush()
+        fp.close()
+    else:
+        print('Found markdown cache valid for %s days' % round(((((getctime(path) + (3600 * 24 * 30)) - time()) / 3600) / 24), 2))
+    fp = open(path, 'r')
+    cache_data = fp.read()
+    fp.close()
+    return cache_data
 
 
 @app.cli.command()
-def testdata():
+def testdata() -> None:
     f = faker.Faker()
     al, dl, ol, rcl, rl, dsl, tl, unamel, ul = [], [], [], [], [], [], [], [], []
 
@@ -18,21 +57,18 @@ def testdata():
         if uname in unamel:
             continue
         u = User(username=uname, password=f.ipv6(), prefix=f.prefix(), name=f.name(), suffix=f.suffix(),
-                 email=f.email())
+                 email=str(randrange(1, 99)) + f.email(), use_username=True if randrange(0,2) != 1 else False)
         ul.append(u)
         unamel.append(uname)
         db.session.add(u)
-
     db.session.commit()
-
-    url = 'https://gist.githubusercontent.com/rt2zz/e0a1d6ab2682d2c47746950b84c0b6ee/raw/83b8b4814c3417111b9b9bef86a552608506603e/markdown-sample.md'
-    md_test_data = urllib3.PoolManager().request('GET', url).data.decode()
+    md_test_data= get_md_cache()
     for _ in range(60):
         g = Guide(title=f.text(max_nb_chars=10), content=md_test_data, _author_id=ul[randint(0, ul.__len__() - 1)].id)
         db.session.add(g)
 
     for _ in range(60):
-        o = Organisation(name=f.company(), phone=f.phone_number(), website=f.url(), email=f.email())
+        o = Organisation(name=f.company(), phone=f.phone_number(), website=f.url(), email=str(randrange(1, 99)) + f.email())
         ol.append(o)
         db.session.add(o)
 
@@ -42,7 +78,7 @@ def testdata():
         a = Address(city=f.city(), country=f.country_code(), postcode=f.postcode(), line1=f.street_name(),
                     line2=f.building_number(),
                     province=f.state())
-        d = Doctor(name=f.name(), email=f.email(), website=f.url(), phone=f.phone_number(), prefix=f.prefix(),
+        d = Doctor(name=f.name(), email=str(randint(1, 99)) + f.email(), website=f.url(), phone=f.phone_number(), prefix=f.prefix(),
                    suffix=f.suffix(),
                    organisation_id=ol[randint(0, ol.__len__() - 1)].id,
                    note=f.text(max_nb_chars=randint(50, 200)),

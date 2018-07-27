@@ -7,7 +7,9 @@ from .organisationAddress import OrganisationAddress
 from .address import Address
 
 import pycountry
+from TransHelp import whooshee
 
+@whooshee.register_model('name', 'email', 'phone', 'website')
 class Organisation(IsTagAble, IsRateAble, IsSearchAble, db.Model):
     id = db.Column(UuidField, unique=True, nullable=False, default=uuid4, primary_key=True)
     name = db.Column(db.String(255), unique=False, nullable=False)
@@ -23,6 +25,9 @@ class Organisation(IsTagAble, IsRateAble, IsSearchAble, db.Model):
 
     def __init__(self, *args, **kwargs):
         super(self.__class__, self).__init__(*args, **kwargs)
+
+    def __repr__(self):
+        return '%s-%s' % (self.id, self.name)
 
     def address(self):
         if self._address is None:

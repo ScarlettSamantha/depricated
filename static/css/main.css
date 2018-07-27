@@ -55,9 +55,9 @@
 .flag-icon.flag-icon-squared
 {
     margin-right:10px;
-    width:17px !important;
-    max-width:17px !important;
-    max-height:17px;
+    width:16px !important;
+    max-width:16px !important;
+    max-height:16px;
     border:1px solid black;
     padding:0 0 0 0;
 }
@@ -117,4 +117,22 @@
 .navbar.navbar-default .nav-collapse.in.slide-down,
 .navbar.navbar-inverse .nav-collapse.in.slide-down {
     transform: translate(0px,0px);
+}
+
+.filter_container
+{
+    height: 50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.filter-bar
+{
+    height:42px;
+}
+
+.clear_filter_btn
+{
+    width:42px;
+    height:42px;
 }

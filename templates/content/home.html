@@ -9,31 +9,33 @@
     </div>
     <div class="row trans-search-container">
         <div class="col-xs-10 col-xs-offset-1">
-            <div class="input-group">
-                <div class="input-group-btn search-panel ">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <span id="search_concept">Filter by</span> <span class="fa fa-arrow-down"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#guides"><i class="fa fa-book"></i> Guides</a></li>
-                        <li><a href="#doctors"><i class="fa fa-hospital-o"></i> Doctors</a></li>
-                        <li><a href="#medicine"><i class="fa fa-medkit"></i> Medicine</a></li>
-                        <li><a href="#posts"><i class="fa fa-clipboard"></i> Posts</a></li>
-                        <li><a href="#resources"><i class="fa fa-bell-o"></i> Resources</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#all"><i class="fa fa-star"></i>All</a></li>
-                    </ul>
+            <form method="post" action="#" name="search_form" id="search_form">
+                <div class="input-group">
+                    <div class="input-group-btn search-panel ">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span id="search_concept">Filter by</span> <span class="fa fa-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" id="search-filter">
+                            <li><a href="#guides"><i class="fa fa-book"></i> Guides</a></li>
+                            <li><a href="#doctors"><i class="fa fa-hospital-o"></i> Doctors</a></li>
+                            <li><a href="#medicine"><i class="fa fa-medkit"></i> Medicine</a></li>
+                            <li><a href="#posts"><i class="fa fa-clipboard"></i> Posts</a></li>
+                            <li><a href="#resources"><i class="fa fa-bell-o"></i> Resources</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#all"><i class="fa fa-star"></i>All</a></li>
+                        </ul>
+                    </div>
+                    <input type="hidden" name="search_param" value="all" id="search_param">
+                    <input type="text" class="search-bar form-control" id="search_query" name="search_query" placeholder="Search term..." value="">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" id="search_submit" type="button"><span class="fa fa-search"></span></button>
+                </span>
                 </div>
-                <input type="hidden" name="search_param" value="all" id="search_param">
-                <input type="text" class="search-bar form-control" name="x" placeholder="Search term...">
-                <span class="input-group-btn">
-                <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
-            </span>
-            </div>
+            </form>
         </div>
     </div>
     <div class="row trans-guides-container row-off">
-        <div class="col-lg-3 col-lg-offset-1">
+        <div class="col-sm-5 col-md-4 col-lg-3 col-lg-offset-1">
             <h2>Recent Guides</h2>
             <ul>
                 <li><a href="#">Guide 1</a></li>
@@ -43,7 +45,7 @@
                 <li><a href="#">Guide 5</a></li>
             </ul>
         </div>
-        <div class="col-lg-3 col-lg-offset-1">
+        <div class="col-sm-5 col-md-4 col-lg-3 col-lg-offset-1">
             <h2>Highly Rated Guides</h2>
             <ul>
                 <li><a href="#">Guide 1</a></li>
@@ -53,7 +55,7 @@
                 <li><a href="#">Guide 5</a></li>
             </ul>
         </div>
-        <div class="col-lg-3 col-lg-offset-1">
+        <div class="col-sm-5 col-md-4 col-lg-3 col-lg-offset-1">
             <h2>Guides in your Area</h2>
             <ul>
                 <li><a href="#">Guide 1</a></li>

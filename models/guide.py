@@ -5,8 +5,9 @@ from TransHelp import db
 from datetime import datetime
 from helpers import IsRateAble, IsSearchAble, IsTagAble
 from .user import User
+from TransHelp import whooshee
 
-
+@whooshee.register_model('title', 'content')
 class Guide(IsRateAble, IsSearchAble, IsTagAble, db.Model):
     id = db.Column(UuidField, unique=True, nullable=False, default=uuid4, primary_key=True)
 
@@ -27,6 +28,9 @@ class Guide(IsRateAble, IsSearchAble, IsTagAble, db.Model):
 
     def __init__(self, *args, **kwargs):
         super(self.__class__, self).__init__(*args, **kwargs)
+
+    def __repr__(self):
+        return '%s - %s' % (self.id, self.title)
 
     def unpublished(self) -> list:
         return self.query.filter(Guide.is_published == False).all()
@@ -76,3 +80,6 @@ class Guide(IsRateAble, IsSearchAble, IsTagAble, db.Model):
         if self._author is None:
             self._author = User.query.filter(User.id == self._author_id).first()
         return self._author
+
+    def author_name(self) -> str:
+        return self.author().get_display_name()

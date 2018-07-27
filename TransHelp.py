@@ -2,6 +2,7 @@ from flask import Flask, render_template, render_template_string
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from flask_sqlalchemy import SQLAlchemy
+from flask_whooshee import Whooshee
 
 app = Flask(__name__)
 
@@ -11,15 +12,45 @@ import config
 db = SQLAlchemy(app)
 engine = create_engine(app.config['DATABASE_PATH'], convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+whooshee = Whooshee(app)
 
 # Load order is important here, otherwise commands dont have access to all the models.
 from models import *
-from commands import *
+from commands import initdb, rmdb, reinitdb, testdata, testsearch, reindex
+from helpers import ListConverter
+
+app.url_map.converters['list'] = ListConverter
 
 
 @app.route('/')
 def index():
     return render_template('home.html')
+
+@app.route('/search/<list:query>/<list:filters>', methods=['post', 'get'])
+def search(query: str, filters: list):
+    results = {}
+    if 'all' in filters or 'doctors' in filters:
+        results['doctors'] = []
+        for obj in Doctor.search(query=query).all():
+            results['doctors'].append(obj)
+    print(Doctor.search(['test']).__class__)
+    if 'all' in filters or 'organisations' in filters:
+        results['organisations'] = []
+        for obj in Organisation.search(query=query).all():
+            results['organisations'].append(obj)
+    if 'all' in filters or 'resources' in filters:
+        results['resources'] = []
+        pass
+    if 'all' in filters or 'guides' in filters:
+        results['guides'] = []
+        for obj in Guide.search(query=query).all():
+            results['guides'].append(obj)
+    if 'all' in filters or 'users' in filters:
+        results['users'] = []
+        for obj in User.search(query=query).all():
+            results['users'].append(obj)
+
+    return render_template('search.html', results=results, filters=filters, query=query)
 
 
 @app.route('/doctors/')
@@ -81,6 +112,10 @@ def guide(uuid):
     print(uuid)
     guide = Guide.query.filter(Guide.id == str(uuid)).first()
     return render_template('guide.html', guide=guide)
+
+@app.route('/user/<uuid>')
+def user(uuid):
+    return todo()
 
 
 @app.route('/contact/')

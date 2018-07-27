@@ -14,3 +14,4 @@ app.config['GUIDE_CACHE_FILE_EXTENSION'] = 'html'
 app.config['GUIDE_CACHE_FILE_PATTERN'] = join(app.config['DOCUMENT_ROOT'], 'tmp/_guides_cache/%s.'
                                               + app.config['GUIDE_CACHE_FILE_EXTENSION'])
 
+app.config['WHOOSH_BASE'] = join(app.config['DOCUMENT_ROOT'], 'search.db')

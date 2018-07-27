@@ -2,9 +2,10 @@ from enum import Enum
 from uuid import uuid4
 from helpers.uuid import UuidField
 from helpers.security import check_password, generate_password, get_hash_length
-from TransHelp import db
+from TransHelp import db, whooshee
 from datetime import datetime
 from helpers import IsRateAble, IsSearchAble
+from helpers.util import format_name_parts
 
 
 class Permissions(Enum):
@@ -13,6 +14,7 @@ class Permissions(Enum):
     user = 2
 
 
+@whooshee.register_model('id', 'name', 'username')
 class User(IsRateAble, IsSearchAble, db.Model):
     id = db.Column(UuidField, unique=True, nullable=False, default=uuid4, primary_key=True)
 
@@ -33,6 +35,7 @@ class User(IsRateAble, IsSearchAble, db.Model):
     is_verified = db.Column(db.Boolean, default=False, nullable=False, unique=False)
     is_trans_friendly = db.Column(db.Boolean, default=True, nullable=False, unique=False)
     has_warning = db.Column(db.Boolean, default=False, nullable=False, unique=False)
+    use_username = db.Column(db.Boolean, default=True, nullable=False, unique=False)
 
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_updated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -42,9 +45,15 @@ class User(IsRateAble, IsSearchAble, db.Model):
         if 'password' in kwargs.keys():
             self.set_password(kwargs['password'])
 
-    def set_password(self, password):
+    def set_password(self, password:str) -> None:
         self.password = generate_password(password)
 
-    def check_password(self, password):
+    def check_password(self, password:str) -> bool:
         return check_password(self.password, password)
 
+
+    def get_display_name(self) -> str:
+        if self.use_username:
+            return self.username
+        else:
+            return format_name_parts(self.prefix, self.name, self.suffix)

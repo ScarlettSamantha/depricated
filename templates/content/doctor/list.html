@@ -1,4 +1,5 @@
 <div class="doctors_list container">
+{% include 'partiales/filter_bar.html' %}
 <table class="table table-responsive table-bordered">
     <thead>
         <td>Name</td>
@@ -7,7 +8,7 @@
         <td>Country</td>
         <td>View</td>
     </thead>
-    <tbody>
+    <tbody class='filterable'>
         {% for doctor in doctors %}
             {% include 'partiales/doctor/list_item.html' %}
         {% endfor %}
