@@ -44,7 +44,6 @@ $(document).ready(function(e){
             jo.hide();
             jo.filter(function (i, v) {
                 var $t = $(this);
-                console.log(data[d]);
                 if($t.hasClass("not_filterable") === false) {
                     for (var d = 0; d < data.length; ++d) {
                         if ($t.is(":contains('" + data[d] + "')") ||
@@ -72,7 +71,6 @@ $(document).ready(function(e){
             jo.hide();
             jo.filter(function (i, v) {
                 var $t = $(this);
-                console.log(data[d]);
                 if($t.hasClass("not_filterable") === false) {
                     for (var d = 0; d < data.length; ++d) {
                         if ($t.is(":contains('" + data[d] + "')") ||
