@@ -44,9 +44,14 @@ $(document).ready(function(e){
             jo.hide();
             jo.filter(function (i, v) {
                 var $t = $(this);
-                for (var d = 0; d < data.length; ++d) {
-                    if ($t.is(":contains('" + data[d] + "')")) {
-                        return true;
+                console.log(data[d]);
+                if($t.hasClass("not_filterable") === false) {
+                    for (var d = 0; d < data.length; ++d) {
+                        if ($t.is(":contains('" + data[d] + "')") ||
+                            ($t.is('[x-secret-filter-data]') &&
+                                $t.attr('x-secret-filter-data').toLowerCase().indexOf(data[d].toLowerCase()) !== -1 )) {
+                            return true;
+                        }
                     }
                 }
                 return false;
@@ -67,9 +72,14 @@ $(document).ready(function(e){
             jo.hide();
             jo.filter(function (i, v) {
                 var $t = $(this);
-                for (var d = 0; d < data.length; ++d) {
-                    if ($t.is(":contains('" + data[d] + "')")) {
-                        return true;
+                console.log(data[d]);
+                if($t.hasClass("not_filterable") === false) {
+                    for (var d = 0; d < data.length; ++d) {
+                        if ($t.is(":contains('" + data[d] + "')") ||
+                            ($t.hasAttr('x-secret-filter-data') &&
+                                $t.attr('x-secret-filter-data').toLowerCase().indexOf(data[d].toLowerCase()) !== -1 )) {
+                            return true;
+                        }
                     }
                 }
                 return false;

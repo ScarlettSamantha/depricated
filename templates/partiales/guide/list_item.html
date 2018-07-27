@@ -1,7 +1,7 @@
-<tr>
+<tr x-secret-filter-data="{{ guide.relevant_area|country_to_name }}">
     <td><a href="{{ url_for('guide', uuid=guide.id) }}">{{ guide.title }}</a></td>
     <td><a href="{{ url_for('user', uuid=guide.author().id)}}">{{ guide.author_name() }}</a></td>
-    <td class="guide_rating_{{ guide.rating_state()|rating_name }}">{{ guide.rating()|signed }}</td>
+    <td class="not_filterable guide_rating_{{ guide.rating_state()|rating_name }}">{{ guide.rating()|signed }}</td>
     <td>{{ guide.language|lang_to_name }}</td>
     <td><span class="flag-icon flag-icon-{{ guide.relevant_area|country_to_flag }} flag-icon-squared flag-icon-squared"></span></td>
     <td><i class="fa {% if guide.is_recompilation_needed() %} fa-stop-circle {% else %} fa-check-circle {% endif %}"></i></td>

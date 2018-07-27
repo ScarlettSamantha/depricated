@@ -24,3 +24,9 @@ def lang_to_name(language:str) -> str:
 def country_to_flag(country) -> str:
     if type(country) == str:
         return country.lower()
+
+@app.template_filter('country_to_name')
+def country_to_name(country) -> str:
+    from pycountry import countries
+    if type(country) == str:
+        return countries.get(alpha_2=country).name
