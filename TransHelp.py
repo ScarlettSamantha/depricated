@@ -17,7 +17,7 @@ whooshee = Whooshee(app)
 # Load order is important here, otherwise commands dont have access to all the models.
 from models import *
 from commands import initdb, rmdb, reinitdb, testdata, testsearch, reindex
-from helpers import ListConverter
+from helpers import ListConverter, signed
 
 app.url_map.converters['list'] = ListConverter
 
@@ -103,7 +103,7 @@ def resource(uuid):
 
 @app.route('/guides/')
 def guides():
-    guides = Guide.query.all()
+    guides = Guide.query.order_by(Guide._rating.desc()).all()
     return render_template('guides.html', guides=guides)
 
 

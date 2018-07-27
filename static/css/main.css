@@ -136,3 +136,19 @@
     width:42px;
     height:42px;
 }
+
+.guide_rating_bad {
+    color:red;
+}
+
+.guide_rating_ok {
+    color:gray;
+}
+
+.guide_rating_decent {
+    color:orange;
+}
+
+.guide_rating_good {
+    color:limegreen;
+}

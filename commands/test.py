@@ -12,6 +12,7 @@ from os import makedirs
 from time import time
 from random import randrange
 from math import ceil
+from pycountry import languages
 
 @app.cli.command()
 def reindex() -> None:
@@ -63,8 +64,13 @@ def testdata() -> None:
         db.session.add(u)
     db.session.commit()
     md_test_data= get_md_cache()
+    language_length = len(languages)
+    language_list = list(languages)
     for _ in range(60):
-        g = Guide(title=f.text(max_nb_chars=10), content=md_test_data, _author_id=ul[randint(0, ul.__len__() - 1)].id)
+        g = Guide(title=f.text(max_nb_chars=40), content=md_test_data, _author_id=ul[randint(0, ul.__len__() - 1)].id)
+        g.rating(randrange(-50, +200))
+        g.language = language_list[randrange(0, language_length - 1)].alpha_3
+        g.relevant_area = f.country_code()
         db.session.add(g)
 
     for _ in range(60):

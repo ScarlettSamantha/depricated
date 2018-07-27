@@ -1,12 +1,16 @@
 <div class="organisations_list container">
+{% include 'partiales/filter_bar.html' %}
 <table class="table table-responsive table-bordered">
     <thead>
-        <td>title</td>
-        <td>author</td>
+        <td>Title</td>
+        <td>User - Author</td>
+        <td>Rating</td>
+        <td>Language</td>
+        <td>Relevant Area</td>
         <td>Uptodate</td>
         <td>View</td>
     </thead>
-    <tbody>
+    <tbody class="filterable">
         {% for guide in guides %}
             {% include 'partiales/guide/list_item.html' %}
         {% endfor %}
